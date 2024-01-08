@@ -29,7 +29,7 @@ const board = (function () {
       }
 
       if (move == 9) {
-        console.log(`Game finished! It's a tie.`);
+        statusTxt.textContent = `Game finished! It's a tie.`;
         gameEnable = false;
         return -1;
       }
@@ -38,7 +38,9 @@ const board = (function () {
         let ret = checkWin();
         console.log(`Checking for a winner... ret: ${ret}`);
         if (ret) {
-          console.log(`Game finished! Player ${playerId} wins!!`);
+          statusTxt.textContent = `Game finished! Player ${
+            players[(move + 1) % 2].playerName
+          } wins!!`;
           gameEnable = false;
         } else {
           console.log("Game keeps going.");
@@ -53,6 +55,7 @@ const board = (function () {
     }
     move = 0;
     gameEnable = true;
+    statusTxt.textContent = "";
     renderBoard();
     console.log("Resetting board");
   };
@@ -113,6 +116,7 @@ function Player(name, id) {
   return { playerName, playerId };
 }
 
+const statusTxt = document.querySelector("body > h2");
 const spacesNodelist = document.querySelectorAll("div.space");
 const resetBtn = document.querySelector("button.reset");
 
