@@ -1,6 +1,6 @@
 const board = (function () {
   // let spaces = ["X", "X", "O", "O", "X", "X", "O", "O", "X"];
-  let spaces = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+  let spaces = [null, null, null, null, null, null, null, null, null];
   let move = 0;
 
   const getBoard = function () {
@@ -26,15 +26,18 @@ const board = (function () {
       } else {
         console.log(`Space ${space} is already occupied.`);
       }
-      getBoard();
+
+      if (move == 9) {
+        console.log(`Game finished! It's a tie.`);
+      }
+
       if (move > 4) {
-        if (!checkWin()) {
+        let ret = checkWin();
+        console.log(`Checking for a winner... ret: ${ret}`);
+        if (ret) {
           console.log(`Game finished! Player ${playerId} wins!!`);
         } else {
           console.log("Game keeps going.");
-        }
-        if (move == 9) {
-          console.log(`Game finished! It's a tie.`);
         }
       }
     }
@@ -42,18 +45,19 @@ const board = (function () {
 
   const resetBoard = function () {
     for (let i in spaces) {
-      spaces[i] = 0;
+      spaces[i] = null;
     }
     move = 0;
     console.log("Resetting board");
   };
 
   const checkWin = function () {
+    let win = false;
     // Check rows
     [0, 3, 6].forEach((i) => {
       if (spaces[i] == spaces[i + 1] && spaces[i + 1] == spaces[i + 2]) {
         if (spaces[i]) {
-          return spaces[i];
+          win = true;
         }
       }
     });
@@ -62,7 +66,7 @@ const board = (function () {
     [0, 1, 2].forEach((i) => {
       if (spaces[i] == spaces[i + 3] && spaces[i + 3] == spaces[i + 6]) {
         if (spaces[i]) {
-          return spaces[i];
+          win = true;
         }
       }
     });
@@ -73,11 +77,11 @@ const board = (function () {
       (spaces[2] == spaces[4] && spaces[4] == spaces[6])
     ) {
       if (spaces[4]) {
-        return spaces[4];
+        win = true;
       }
     }
 
-    return 0;
+    return win;
   };
 
   const renderBoard = function () {
