@@ -1,5 +1,5 @@
-const board = (function (boardSelector) {
-  let spaces = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+const board = (function () {
+  let spaces = ["X", "X", "O", "O", "X", "X", "O", "O", "X"];
   let move = 0;
 
   const getBoard = function () {
@@ -76,10 +76,19 @@ const board = (function (boardSelector) {
     return 0;
   };
 
+  const renderBoard = function () {
+    for (let i in spacesNodelist) {
+      if (spacesNodelist.hasOwnProperty(i)) {
+        spacesNodelist[i].textContent = spaces[i];
+      }
+    }
+  };
+
   return {
     getBoard,
     setSpace,
     resetBoard,
+    renderBoard,
   };
 })();
 
@@ -89,3 +98,6 @@ function Player(name, id) {
 
   return { playerName, playerId };
 }
+
+const spacesNodelist = document.querySelectorAll("div.space");
+board.renderBoard();

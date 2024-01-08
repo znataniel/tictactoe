@@ -1,0 +1,25 @@
+* {
+  box-sizing: border-box;
+}
+
+div.board {
+  width: 600px;
+  height: 600px;
+
+  display: grid;
+  grid-template: repeat(3, 1fr) / repeat(3, 1fr);
+
+  border: 1px solid gray;
+}
+
+div.space {
+  border: 1px solid white;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  color: black;
+  background-color: lightgray;
+  font-size: 6rem;
+}
