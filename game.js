@@ -2,6 +2,7 @@ const board = (function () {
   // let spaces = ["X", "X", "O", "O", "X", "X", "O", "O", "X"];
   let spaces = [null, null, null, null, null, null, null, null, null];
   let move = 0;
+  let gameEnable = true;
 
   const getBoard = function () {
     console.log(`
@@ -18,7 +19,7 @@ const board = (function () {
   };
 
   const setSpace = function (space, playerId) {
-    if (space >= 0 && space < 9) {
+    if (space >= 0 && space < 9 && gameEnable) {
       if (!spaces[space]) {
         spaces[space] = playerId;
         console.log(`Player ${playerId} played in space ${space}`);
@@ -29,6 +30,8 @@ const board = (function () {
 
       if (move == 9) {
         console.log(`Game finished! It's a tie.`);
+        gameEnable = false;
+        return -1;
       }
 
       if (move > 4) {
@@ -36,6 +39,7 @@ const board = (function () {
         console.log(`Checking for a winner... ret: ${ret}`);
         if (ret) {
           console.log(`Game finished! Player ${playerId} wins!!`);
+          gameEnable = false;
         } else {
           console.log("Game keeps going.");
         }
@@ -48,6 +52,8 @@ const board = (function () {
       spaces[i] = null;
     }
     move = 0;
+    gameEnable = true;
+    renderBoard();
     console.log("Resetting board");
   };
 
@@ -93,7 +99,6 @@ const board = (function () {
   };
 
   return {
-    getBoard,
     getMove,
     setSpace,
     resetBoard,
@@ -109,6 +114,7 @@ function Player(name, id) {
 }
 
 const spacesNodelist = document.querySelectorAll("div.space");
+const resetBtn = document.querySelector("button.reset");
 
 const players = [Player("P1", "X"), Player("P2", "O")];
 
@@ -120,3 +126,5 @@ for (let i in spacesNodelist) {
     });
   }
 }
+
+resetBtn.addEventListener("click", board.resetBoard);
