@@ -1,5 +1,6 @@
 const board = (function () {
-  let spaces = ["X", "X", "O", "O", "X", "X", "O", "O", "X"];
+  // let spaces = ["X", "X", "O", "O", "X", "X", "O", "O", "X"];
+  let spaces = [0, 0, 0, 0, 0, 0, 0, 0, 0];
   let move = 0;
 
   const getBoard = function () {
@@ -10,6 +11,10 @@ const board = (function () {
       ${spaces[6]} ${spaces[7]} ${spaces[8]}\n
       ######## BOARD ########\n
     `);
+  };
+
+  const getMove = function () {
+    return move;
   };
 
   const setSpace = function (space, playerId) {
@@ -41,7 +46,6 @@ const board = (function () {
     }
     move = 0;
     console.log("Resetting board");
-    getBoard();
   };
 
   const checkWin = function () {
@@ -86,6 +90,7 @@ const board = (function () {
 
   return {
     getBoard,
+    getMove,
     setSpace,
     resetBoard,
     renderBoard,
@@ -100,4 +105,14 @@ function Player(name, id) {
 }
 
 const spacesNodelist = document.querySelectorAll("div.space");
-board.renderBoard();
+
+const players = [Player("P1", "X"), Player("P2", "O")];
+
+for (let i in spacesNodelist) {
+  if (spacesNodelist.hasOwnProperty(i)) {
+    spacesNodelist[i].addEventListener("click", () => {
+      board.setSpace(i, players[board.getMove() % 2].playerId);
+      board.renderBoard();
+    });
+  }
+}
