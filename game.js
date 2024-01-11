@@ -20,6 +20,10 @@ const board = (function () {
 
   const setSpace = function (space, playerId) {
     if (space >= 0 && space < 9 && gameEnable) {
+      if (!move) {
+        resetBtn.textContent = "RESTART";
+      }
+
       if (!spaces[space]) {
         spaces[space] = playerId;
         console.log(`Player ${playerId} played in space ${space}`);
@@ -55,7 +59,8 @@ const board = (function () {
     }
     move = 0;
     gameEnable = true;
-    statusTxt.textContent = "";
+    statusTxt.textContent = "Click on a square to play the first move!";
+    resetBtn.textContent = "START";
     renderBoard();
     console.log("Resetting board");
   };
@@ -116,7 +121,7 @@ function Player(name, id) {
   return { playerName, playerId };
 }
 
-const statusTxt = document.querySelector("body > h2");
+const statusTxt = document.querySelector("body h2");
 const spacesNodelist = document.querySelectorAll("div.space");
 const resetBtn = document.querySelector("button.reset");
 
