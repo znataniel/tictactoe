@@ -32,12 +32,6 @@ const board = (function () {
         console.log(`Space ${space} is already occupied.`);
       }
 
-      if (move == 9) {
-        statusTxt.textContent = `Game finished! It's a tie.`;
-        gameEnable = false;
-        return -1;
-      }
-
       if (move > 4) {
         let ret = checkWin();
         console.log(`Checking for a winner... ret: ${ret}`);
@@ -46,6 +40,10 @@ const board = (function () {
             players[(move + 1) % 2].playerName
           } wins!!`;
           gameEnable = false;
+        } else if (move == 9) {
+          statusTxt.textContent = `Game finished! It's a tie.`;
+          gameEnable = false;
+          return -1;
         } else {
           console.log("Game keeps going.");
         }
